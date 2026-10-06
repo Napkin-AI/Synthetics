@@ -1,15 +1,34 @@
 import numpy as np
 import cv2
 
-from settings import PARAM, DEBUG_MODE, uniform_float, uniform_int, normal_randint
+def uniform_float(mean, std):
+    return random.uniform(mean - std, mean + std)
+
+
+def uniform_int(mean, std):
+    return int(random.uniform(mean - std, mean + std) + 0.5)
+
+
+def normal_randint(mean, std):
+    vals = int(random.gauss(mean, std/3)+0.495)
+    return 0 if vals < 0 else 255 if vals > 255 else vals
+
+import random
+import json
+
+with open("D:\course_work\data\synth_rep\Synthetics\kasthuri_indexed.json", 'r', encoding="utf-8") as f:
+    PARAM = json.load(f)
+
+DEBUG_MODE = False
+
 import math
 
 if __name__ == "__main__":
     import sys
     sys.path.append('.')
-else:
-    from src.organells.axon import Axon
-    from src.organells.PSD import PSD
+
+from src.organells.axon import Axon
+from src.organells.PSD import PSD
 
 from src.container.spline import *
 from src.container.subclass import *
@@ -141,15 +160,15 @@ class Membrane:
 
         choice = np.random.randint(0,10)
 
-        if choice < 4:
+        if choice < 8:
             self.typeLine = 0
-        elif choice < 8:
+        elif choice < 9:
             self.typeLine = 2
         else:
             #self.typeLine = 1           # первый тип линии сильно растворяется, поэтому его вероятность появления снижена
             self.typeLine = 2           # отключен, так как выглядит не естественно 
         #self.typeLine = 1
-        
+
         self.sizeInputLine = np.random.randint(0, PARAM['membrane_thickness_mean'])
         
         self.sizeLine = uniform_int(
@@ -874,7 +893,9 @@ def testMembrane():
         mask = membrane.DrawMask(mask)
         img2 = membrane.Draw(img)
         tecnicalMask = membrane.DrawUniqueArea(tecnicalMask)
-
+        mask = cv2.resize(mask, (256, 256))
+        img2 = cv2.resize(img2, (256, 256))
+        img1 = cv2.resize(img1, (256, 256))
         cv2.imshow("img", img1)
         cv2.imshow("mask", mask)
         cv2.imshow("img2", img2)
@@ -885,7 +906,7 @@ def testMembrane():
         Img = cv2.GaussianBlur(img1,(r*2+1,r*2+1), G)
 
         noisy = np.ones(img1.shape[:2], np.uint8)
-        noisy = np.random.poisson(noisy)*PARAM['pearson_noise'] - PARAM['pearson_noise']/2
+        noisy = np.random.poisson(noisy)*PARAM['poisson_noise'] - PARAM['poisson_noise']/2
 
         Img = Img + cv2.merge([noisy, noisy, noisy])
         Img[Img < 0] = 0
@@ -895,7 +916,7 @@ def testMembrane():
         cv2.imshow("add noise and blur", Img)
 
         q = cv2.waitKey()
-
+    # return
     print("2/3 type. Press button 'Q' or 'q' to exit")
     q = 's'
     while q != ord('q') and q != ord("Q"):
@@ -937,7 +958,7 @@ def testMembrane():
         Img = cv2.GaussianBlur(img1,(r*2+1,r*2+1), G)
 
         noisy = np.ones(img1.shape[:2], np.uint8)
-        noisy = np.random.poisson(noisy)*PARAM['pearson_noise'] - PARAM['pearson_noise']/2
+        noisy = np.random.poisson(noisy)*PARAM['poisson_noise'] - PARAM['poisson_noise']/2
 
         Img = Img + cv2.merge([noisy, noisy, noisy])
         Img[Img < 0] = 0
@@ -1004,4 +1025,4 @@ def testMembrane():
         q = cv2.waitKey()
 
 if __name__ == "__main__":
-    testMitohondrion()
+    testMembrane()

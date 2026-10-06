@@ -21,21 +21,21 @@ from src.container.main_field import Form
 #testUnion_PSD_ves()
 
 
-size_image = (256, 256)
-#size_image = (512, 512)
+#size_image = (256, 256)
+size_image = (512, 512)
 #size_image = (128, 128)
 forma = Form(size_image)
 
 # количество элементов на изображении
-max_count_PSD = 3
+max_count_PSD = 5
 max_count_Axon = 1
 max_count_Vesicles = 3
-max_count_Mitohondrion = 3
+max_count_Mitohondrion = 4
 
-number_generation = 100
+number_generation = 200
 ArrLayers = forma.StartGeneration(number_generation, max_count_PSD, max_count_Axon, max_count_Vesicles, max_count_Mitohondrion,\
                                   #dir_save = "dataset/synthetic_dataset10/", startIndex = 0, max_count_spam = 5)
-                                  dir_save = "dataset/test_dataset_no_noise/", startIndex = 0, max_count_spam = 5)
+                                  dir_save = "dataset/test_dataset_no_noise_kasthuri_512_v2_300/", startIndex = 100, max_count_spam = 50)
 #ArrLayers = [[Img, MackPSD, MackAxon, MackMembrans, MackMito, MackMitoBoarder, MackVesicules], ...]
 
 #number_generation = 20

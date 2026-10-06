@@ -51,8 +51,8 @@ class PointsNoise:
         xe = xs + xd * dist
         ye = ys + yd * dist
 
-        xe = xe.astype(np.int)
-        ye = ye.astype(np.int)
+        xe = xe.astype(np.int32)
+        ye = ye.astype(np.int32)
 
         xe[xe < 0] = 0
         ye[ye < 0] = 0
@@ -76,8 +76,8 @@ class PointsNoise:
         ys = np.random.randint(0, self.sizeImage[1], count)
         xd = np.random.randint(-5, 5, count)
         yd = np.random.randint(-5, 5, count)
-        xe = np.minimum(np.ones(count) * self.sizeImage[0], np.maximum(np.zeros(count), xs + xd)).astype(np.int)
-        ye = np.minimum(np.ones(count) * self.sizeImage[1], np.maximum(np.zeros(count),ys + yd)).astype(np.int)
+        xe = np.minimum(np.ones(count) * self.sizeImage[0], np.maximum(np.zeros(count), xs + xd)).astype(np.int32)
+        ye = np.minimum(np.ones(count) * self.sizeImage[1], np.maximum(np.zeros(count),ys + yd)).astype(np.int32)
         w = np.random.randint(1, PARAM['main_noise_w'], count)
         for i in range(0, count):    
             c = normal_randint(

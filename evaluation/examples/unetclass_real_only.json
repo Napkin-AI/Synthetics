@@ -1,0 +1,5 @@
+{
+  "framework_root": "/mnt/d/course_work/repositories/unet_fork/UnetClass",
+  "training_config": "/mnt/d/course_work/4_course/expertiments/7_sem/10_slices_exp_2/segmentation/2025_05_16_00_45_13_0_0/config_test_1_&_tiny_unet_v3_!.json",
+  "feature_layer": "down2"
+}

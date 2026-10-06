@@ -74,21 +74,21 @@ class Mitohondrion(Location):
         return self.__copy__()
 
     def Create(self):
-        if np.random.random() < 0.05:
+        if np.random.random() < 0.00:
             self.inputType = 1
             min_r = np.random.randint(10, 15+1)
             max_r = np.random.randint(16, 22+1)
             main_len = np.random.randint(PARAM["mit_len_min"], 50+1)
         else:
             self.inputType = 0
-            min_r = np.random.randint(18, 25+1)
-            max_r = np.random.randint(28, 43+1)
+            min_r = np.random.randint(18, 25+1) * 1.7
+            max_r = np.random.randint(28, 43+1) * 2
             main_len = np.random.randint(PARAM["mit_len_min"], PARAM["mit_len_max"])
 
         self.main_len = main_len
-
+        #print(self.main_len)
         # минимум 4, максимум 10
-        self.numberPoints = 2 + 2 * np.random.randint(1, 5)
+        self.numberPoints = np.random.randint(4, 10)
 
         half_side_num_points = (self.numberPoints - 2)//2
         step = main_len/(half_side_num_points+1)
@@ -353,7 +353,10 @@ def testMitohondrion():
             cv2.circle(img2, point, 3, (0, 255, 0), 2)
 
         Boarder = mitohondrion.DrawMaskBoarder(mask)
-
+        mask = cv2.resize(mask, (256, 256))
+        img2 = cv2.resize(img2, (256, 256))
+        img1 = cv2.resize(img1, (256, 256))
+        Boarder = cv2.resize(Boarder, (256, 256))
         cv2.imshow("img", img1)
         cv2.imshow("mask", maskMito)
         cv2.imshow("img2", img2)

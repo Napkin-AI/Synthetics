@@ -26,9 +26,10 @@ class Axon(Location):
             PARAM['axon_shell_color_mean'],
             PARAM['axon_shell_color_std'])
         self.shell_color = (color, color, color)
+        self.use_stretch = np.random.uniform(0, 1) >= PARAM.get("axon_use_stretch_p", 1)
 
-        self.sizePen = np.random.randint(14, 18)
-        self.sizeAddPen = np.random.randint(self.sizePen, 20)
+        self.sizePen = np.random.randint(PARAM.get('axon_shell_min_size', 14), PARAM.get('axon_shell_max_size', 18))
+        self.sizeAddPen = np.random.randint(self.sizePen, PARAM.get('axon_shell_max_size') or 20)
 
         self.input_radius = None
         self.sublistNumber = 0
@@ -71,23 +72,36 @@ class Axon(Location):
     def copy(self):
         return self.__copy__()
 
-    def Create(self, min_r=0, max_r=0):
+    def Create(self):
 
-        if np.random.randint(0, 5) == 0:
+        min_r = 0; PARAM.get("axon_min_r", 0)
+        max_r = 0; PARAM.get("axon_max_r", 0)
+
+        if (PARAM.get('axon_shell_type') == 0) or np.random.randint(0, 5) == 0:
             self.typeGen = 0
         else:
             self.typeGen = 1
 
         self.Points = []
 
-        self.numberPoints = np.random.randint(7, 14+1)
+        self.numberPoints = np.random.randint(
+            PARAM.get("axon_points_min", 14),
+            PARAM.get("axon_points_max", 19) + 1
+        )
+
 
         if self.typeGen == 0:
-            if (min_r == 0):
-                min_r = np.random.randint(15, 36)
+            if min_r == 0:
+                min_r = np.random.randint(
+                    PARAM.get("axon_min_radius_min", 15),
+                    PARAM.get("axon_min_radius_max", 36)
+                )
 
-            if (max_r == 0):
-                max_r = min_r + np.random.randint(5, 41 - min_r + 5)                                 # лучше поменять параметры
+            if max_r == 0:
+                max_r = min_r + np.random.randint(
+                    PARAM.get("axon_radius_growth_min", 5),
+                    PARAM.get("axon_radius_growth_max", max(5, 41 - min_r + 5))
+                )
 
         elif self.typeGen == 1:
             if (min_r == 0):
@@ -102,11 +116,25 @@ class Axon(Location):
 
         step_angle = 2.0 * math.pi / self.numberPoints
 
+        stretch = np.random.uniform(
+            PARAM.get("axon_stretch_min", 1),
+            PARAM.get("axon_stretch_max", 1) if self.use_stretch else 2
+        )
+        r = (min_r + max_r) / 2
+
+        a = r * stretch
+        b = r / stretch
+
+        print(a, b, r, min_r, max_r, stretch)
         for i in range(self.numberPoints):
             now_angle = step_angle * i
-            r = min_r + np.random.randint(1, max_increase_len)
 
-            now_point = [int(round(r * math.sin(now_angle))), int(round(r * math.cos(now_angle)))]
+            noise = np.random.randint(1, max_increase_len)
+
+            x = (a + noise) * math.sin(now_angle)
+            y = (b + noise) * math.cos(now_angle)
+
+            now_point = [int(round(x)), int(round(y))]
             self.Points.append(now_point)
 
         if self.typeGen == 1:
@@ -131,8 +159,8 @@ class Axon(Location):
         ys = np.random.randint(0, image.shape[1], count)
         xd = np.random.randint(-5, 5, count)
         yd = np.random.randint(-5, 5, count)
-        xe = np.minimum(np.ones(count) * image.shape[0], np.maximum(np.zeros(count), xs + xd)).astype(np.int)
-        ye = np.minimum(np.ones(count) * image.shape[1], np.maximum(np.zeros(count), ys + yd)).astype(np.int)
+        xe = np.minimum(np.ones(count) * image.shape[0], np.maximum(np.zeros(count), xs + xd)).astype(np.int32)
+        ye = np.minimum(np.ones(count) * image.shape[1], np.maximum(np.zeros(count), ys + yd)).astype(np.int32)
         w = np.random.randint(1, 5, count)
         for i in range(0, count):
             c = np.random.randint(100, 150)
@@ -288,7 +316,8 @@ def testAxon():
 
         color = np.random.randint(182, 200)
 
-        img = np.full((512,512,3), (color,color,color), np.uint8)
+        img = np.full((512,512,3), (color,color,color), np.uint8
+                      )
 
         for i in range(0, 512, 32):
             img[i:i+15,:,:] += 30
@@ -310,6 +339,9 @@ def testAxon():
 
         mask = axon.DrawMask(mask)
         img2 = axon.Draw(img)
+        mask = cv2.resize(mask, (256, 256))
+        img2 = cv2.resize(img2, (256, 256))
+        img1 = cv2.resize(img1, (256, 256))
         tecnicalMask = axon.DrawUniqueArea(tecnicalMask)
 
         cv2.imshow("img", img1)

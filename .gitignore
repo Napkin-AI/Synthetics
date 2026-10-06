@@ -62,3 +62,8 @@ Synthetics/bin
 Synthetics/obj
 
 Synthetics/Sintetic generation
+
+# Evaluation results, benchmark logs
+evaluation/results/
+**/tempCodeRunnerFile.py
+*.idea/*

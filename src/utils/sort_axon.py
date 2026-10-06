@@ -16,6 +16,7 @@ def cnt_white(img):
             if(img[i][j]==0):
                 cnt+=1
     return 256*256-cnt
+
 def copy_image(img_name, img_type):
     shutil.copy2(img_path + "axon\\" + img_name + ".png", img_new_path + img_type + "axon\\" + img_name + ".png")
     shutil.copy2(img_path + "boundaries\\" + img_name + ".png", img_new_path + img_type + "boundaries\\" + img_name + ".png")

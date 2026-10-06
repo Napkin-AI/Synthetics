@@ -17,8 +17,8 @@ class Vesicles(Location):
         super().__init__()
         self.type = "Vesicles"
 
-        self.sizeVesiculeMin = 5
-        self.sizeVesiculeMax = 7
+        self.sizeVesiculeMin = 10
+        self.sizeVesiculeMax = 25
 
         self.listSizeVesiculs = []
         self.listAngleVesiculs = []
@@ -31,6 +31,7 @@ class Vesicles(Location):
         backcolor = normal_randint(
             PARAM['vesicles_back_color_mean'],
             PARAM['vesicles_back_color_std'])
+        #print(color, backcolor)
         self.addColor = (backcolor, backcolor, backcolor)
 
         self.nowBrush = Brush(self.addColor)
@@ -73,10 +74,10 @@ class Vesicles(Location):
 
     def Create(self):
 
-        self.typeGen = np.random.randint(0, 2)
+        #self.typeGen = np.random.randint(0, 2)
 
         if self.typeGen == 0:
-            mainVesiculesSize = np.random.randint(4,6+1)
+            mainVesiculesSize = np.random.randint(6,9)
             self.varibleInputFilling = np.random.random() * 0.05  
         else:
             mainVesiculesSize = np.random.randint(4,6+1)
@@ -86,13 +87,13 @@ class Vesicles(Location):
         self.sizeVesiculeMax = mainVesiculesSize + 1
 
         # radiuses of vesicules area (ellipse)
-        radius_x = np.random.randint(30, 96)
-        radius_y = np.random.randint(30, 96)
+        radius_x = np.random.randint(70, 140)
+        radius_y = np.random.randint(70, 140)
 
         square = radius_y * radius_x
 
         sqrt_int_square = int(round(square / mainVesiculesSize**2))
-
+        print(f"{self.typeGen=}, {sqrt_int_square=}")
         if self.typeGen == 0:
             self.numberPoints = np.random.randint(sqrt_int_square//4, int(sqrt_int_square*1.25)//3+1)
         else:
@@ -111,7 +112,7 @@ class Vesicles(Location):
                 now_point = self.getNewCoordVesicules(radius_x, radius_y)
                 nowSizeCycle = np.random.randint(self.sizeVesiculeMin, self.sizeVesiculeMax+1)
                 counter += 1
-                
+                #print(f"{nowSizeCycle=}, {self.sizeVesiculeMin=} {self.sizeVesiculeMax=}")
                 if not self.CheckOverlap(self.Points, now_point, nowSizeCycle, 0.8):
                     # if we found the place for new vesicula
                     # добавление небольших искривлений, так как не всегда везикулы выглядят круглыми
@@ -206,6 +207,7 @@ class Vesicles(Location):
                     PARAM['vesicles_back_color_mean'],
                     PARAM['vesicles_back_color_std'])
                 self.addColor = (backcolor, backcolor, backcolor)
+                #print("Colors:", color, "\n\n",backcolor)
                 self.setDrawParam()
 
             radius_ves = (max(self.listSizeVesiculs[i][0], 3),
@@ -318,20 +320,24 @@ def testVesicles():
         smalltecnicalMask = np.zeros((512,512,3), np.uint8)
 
         smalltecnicalMask = vesicles.DrawUniqueArea(smalltecnicalMask, True)
+        #
+        # print(vesicles.typeGen)
+        # if vesicles.typeGen==1:
+        #    print(vesicles.varibleInputFilling)
 
-        print(vesicles.typeGen)
-        if vesicles.typeGen==1:
-           print(vesicles.varibleInputFilling)
+        mask = cv2.resize(mask, (256, 256))
+        img2 = cv2.resize(img2, (256, 256))
+        img1 = cv2.resize(img1, (256, 256))
 
         cv2.imshow("img", img1)
-        cv2.imshow("mask", mask)
-        cv2.imshow("img2", img2)
-        cv2.imshow("tecnicalMask", tecnicalMask)
+        #cv2.imshow("mask", mask)
+        #cv2.imshow("img2", img2)
+        #cv2.imshow("tecnicalMask", tecnicalMask)
 
-        cv2.imshow("tecnicalMaskZove", tecnicalMask - mask)
+        #v2.imshow("tecnicalMaskZove", tecnicalMask - mask)
 
-        cv2.imshow("tecnicalMaskSmall", smalltecnicalMask)
-        cv2.imshow("tecnicalMaskZoveSmall", smalltecnicalMask - mask)
+        #cv2.imshow("tecnicalMaskSmall", smalltecnicalMask)
+        #cv2.imshow("tecnicalMaskZoveSmall", smalltecnicalMask - mask)
 
         q = cv2.waitKey()
 

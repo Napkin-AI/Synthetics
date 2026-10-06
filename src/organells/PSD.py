@@ -317,11 +317,14 @@ def testPSD():
         mask = psd.DrawMask(mask)
         img2 = psd.DrawLayer(img)
         tecnicalMask = psd.DrawUniqueArea(tecnicalMask)
+        mask = cv2.resize(mask, (256, 256))
+        img2 = cv2.resize(img2, (256, 256))
+        img1 = cv2.resize(img1, (256, 256))
 
         cv2.imshow("img", img1)
-        cv2.imshow("mask", mask)
-        cv2.imshow("img2", img2)
-        cv2.imshow("tecnicalMask", tecnicalMask)
+        # cv2.imshow("mask", mask)
+        # cv2.imshow("img2", img2)
+        # cv2.imshow("tecnicalMask", tecnicalMask)
 
         r = PARAM["main_radius_gausse_blur"]
         G = PARAM["main_sigma_gausse_blur"]
@@ -399,25 +402,27 @@ def testPSD():
         mask = psd.DrawMask(mask)
         img2 = psd.DrawLayer(img)
         tecnicalMask = psd.DrawUniqueArea(tecnicalMask)
-
+        mask = cv2.resize(mask, (256, 256))
+        img2 = cv2.resize(img2, (256, 256))
+        img1 = cv2.resize(img1, (256, 256))
         cv2.imshow("img", img1)
-        cv2.imshow("mask", mask)
-        cv2.imshow("img2", img2)
-        cv2.imshow("tecnicalMask", tecnicalMask)
-
-        r = PARAM["main_radius_gausse_blur"]
-        G = PARAM["main_sigma_gausse_blur"]
-        Img = cv2.GaussianBlur(img1,(r*2+1,r*2+1), G)
-
-        noisy = np.ones(img1.shape[:2], np.uint8)
-        noisy = np.random.poisson(noisy)*PARAM['poisson_noise'] - PARAM['poisson_noise']/2
-
-        Img = Img + cv2.merge([noisy, noisy, noisy])
-        Img[Img < 0] = 0
-        Img[Img > 255] = 255
-        Img = Img.astype(np.uint8)
-
-        cv2.imshow("add noise and blur", Img)
+        # cv2.imshow("mask", mask)
+        # cv2.imshow("img2", img2)
+        # cv2.imshow("tecnicalMask", tecnicalMask)
+        #
+        # r = PARAM["main_radius_gausse_blur"]
+        # G = PARAM["main_sigma_gausse_blur"]
+        # Img = cv2.GaussianBlur(img1,(r*2+1,r*2+1), G)
+        #
+        # noisy = np.ones(img1.shape[:2], np.uint8)
+        # noisy = np.random.poisson(noisy)*PARAM['poisson_noise'] - PARAM['poisson_noise']/2
+        #
+        # Img = Img + cv2.merge([noisy, noisy, noisy])
+        # Img[Img < 0] = 0
+        # Img[Img > 255] = 255
+        # Img = Img.astype(np.uint8)
+        #
+        # cv2.imshow("add noise and blur", Img)
 
         q = cv2.waitKey()
 

@@ -50,6 +50,14 @@ def SaveGeneration(Img, MackPSD, MackAxon, MackMembrans, MackMito, MackMitoBoard
          if len(suffix_name) > 0:
              name += "_" + suffix_name
 
+         f = lambda image: cv2.resize(image, (256, 256))
+         Img = f(Img)
+         MackPSD = f(MackPSD)
+         MackAxon = f(MackAxon)
+         MackMembrans = f (MackMembrans)
+         MackVesicules = f(MackVesicules)
+         MackMitoBoarder = f(MackMitoBoarder)
+         MackMito = f(MackMito)
          # coхранение слоя
          cv2.imwrite(os.path.join(dir_save, "original", name + ".png"), cv2.cvtColor(Img, cv2.COLOR_RGB2GRAY))
          # coхранение маски

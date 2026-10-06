@@ -1,0 +1,90 @@
+{
+    "main_color_mean": 154,
+    "main_color_std": 18,
+
+    "main_radius_gausse_blur": 4,
+    "main_sigma_gausse_blur": 1.4,
+
+    "main_min_gausse_noise_value": 4,
+    "main_max_gausse_noise_value": 9,
+
+    "background_radius_gausse_blur": 7,
+    "background_sigma_gausse_blur": 7,
+
+    "main_input_radius_gausse_blur": 2,
+    "main_input_sigma_gausse_blur": 2,
+
+    "main_output_radius_gausse_blur": 2,
+    "main_output_sigma_gausse_blur": 4.5,
+
+    "main_big_output_radius_gausse_blur": 3,
+    "main_big_output_sigma_gausse_blur": 6,
+
+    "main_noise_color_mean": 90,
+    "main_noise_color_std": 3,
+    "main_noise_w": 3,
+
+    "axon_shell_color_mean": 22.5,
+    "axon_shell_color_std": 1,
+    "axon_back_color_diff_mean": 26.5,
+    "axon_back_color_diff_std": 10.5,
+
+    "axon_shell_max_size": 50,
+    "axon_shell_min_size": 30,
+    "axon_shell_type": 0,
+    "axon_stretch_min": 1,
+    "axon_stretch_max": 2.5,
+    "axon_min_radius_min": 35,
+    "axon_min_radius_max": 65,
+    "axon_radius_growth_min": 2,
+    "axon_radius_growth_max": 30,
+    "axon_points_min": 7,
+    "axon_points_max": 18,
+    "axon_use_stretch_p": 0.7,
+
+
+    "membrane_thickness_mean": 4,
+    "membrane_thickness_std": 1.0,
+    "membrane_color_mean": 70.0,
+    "membrane_color_std": 20.0,
+    "membrane_space_thickness_max": 3,
+
+    "mitohondrion_shell_color_mean": 30.0,
+    "mitohondrion_shell_color_std": 100.0,
+    "mitohondrion_back_color_mean": 60.5,
+    "mitohondrion_back_color_std": 30.5,
+
+    "mitohondrion_cristae_shell_color_mean": 55.5,
+    "mitohondrion_cristae_shell_color_std": 15.0,
+    "mitohondrion_cristae_color_mean": 63.5,
+    "mitohondrion_cristae_color_std": 15.0,
+
+    "mitohondrion_border_w_min": 2.0,
+    "mitohondrion_border_w_max": 5.0,
+    "mit_len_min": 25.0,
+    "mit_len_max": 130.0,
+
+    "psd_back_color_mean": 70.5,
+    "psd_back_color_std": 10.5,
+    "psd_addcolor_mean": 99.5,
+    "psd_addcolor_std": 12.5,
+    "psd_centerline_color_mean": 90.5,
+    "psd_centerline_color_std": 16.5,
+    "psd_len_min": 35,
+    "psd_len_max": 61,
+
+
+    "vesicles_shell_color_mean": 60.5,
+    "vesicles_shell_color_std": 40.0,
+    "vesicles_back_color_mean": 90.0,
+    "vesicles_back_color_std": 30.0,
+    "vesicles_border_w_min": 1,
+    "vesicles_border_w_max": 2,
+    "vesicles_len_min": 62,
+    "vesicles_len_max": 130,
+
+    "poisson_noise": 15,
+
+    "spam_color_mean": 116,
+    "spam_color_std": 65
+}

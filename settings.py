@@ -1,7 +1,7 @@
 import random
 import json
 
-with open('EPFL.json', 'r', encoding='utf-8') as f:
+with open("D:\course_work\data\synth_rep\Synthetics\kasthuri_indexed.json", 'r', encoding="utf-8") as f:
     PARAM = json.load(f)
 
 DEBUG_MODE = False
